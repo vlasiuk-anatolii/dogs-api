@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "author": "VAM",
+  "license": "",
   "scripts": {
     "tsc": "tsc",
     "watch-tsc": "tsc -w",

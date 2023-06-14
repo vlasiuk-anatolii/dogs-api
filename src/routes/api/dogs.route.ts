@@ -11,6 +11,12 @@ dogsRouter.get(
   dogMiddleWare.tryCatch(dogController.getAllDogs.bind(dogController))
 );
 
+dogsRouter.post(
+  '/dog',
+  dogMiddleWare.validate(dogJoiSchema),
+  dogMiddleWare.tryCatch(dogController.createDog.bind(dogController))
+);
+
 dogsRouter.get(
   '/ping',
   dogMiddleWare.tryCatch(async (_req: Request, res: Response) => {

@@ -6,12 +6,12 @@ import { conectionToDb, getDogRows } from './config/database';
 import 'dotenv/config';
 import dogsRouter from './routes/api/dogs.route';
 
-// import { dogsData } from './initial-data';
+//import { dogsData } from './initial-data';
 // import { insertDogsData } from './config/database';
 
 const app: Application = express();
-// initializeDatabase()
-// insertDogsData(dogsData);
+//initializeDatabase()
+//insertDogsData(dogsData);
 //conectionToDb();
 
 //getDogRows();

@@ -10,12 +10,6 @@ export class DogController {
     this.dogService = new DogService();
   }
 
-  async verifyExistingDog(req: Request<{ name: string }, {}, IDog>) {
-    const { name } = req.body;
-    const dog = await this.dogService.getByName(name);
-    return dog;
-  }
-
   async getAllDogs(req: Request<{ name: string }, {}, IDog>) {
     const { attribute, order, pageNumber, limit } = req.query as {
       attribute?: string;
@@ -28,11 +22,9 @@ export class DogController {
 
     switch (true) {
       case !attribute && !order && !pageNumber && !limit:
-        // Випадок без параметрів
         queryOptions = {};
         break;
       case attribute && order && !pageNumber && !limit:
-        // Випадок з параметрами attribute і order
         const sortingOrder = order === 'desc' ? 'DESC' : 'ASC';
         queryOptions = {
           order: attribute && order ? [[attribute, sortingOrder]] : [],
@@ -52,24 +44,19 @@ export class DogController {
         };
         break;
       default:
-        // Випадок з невідомими або непідтримуваними параметрами
         throw new Error('Invalid query parameters');
     }
 
     const dogs = await this.dogService.getAllDogsFromDB(queryOptions);
     return dogs;
   }
-  // async getSortedDogs (req: Request<{ name: string }, {}, IDog>, res: Response) {
-  //   const attribute = req.query.attribute;
-  //   const order = req.query.order;
 
-  //   if (typeof attribute === 'string' && typeof order === 'string') {
-  //     const dogs = await this.dogService.getAllSortedDogsFromDB(attribute, order);
-  //     return dogs;
-  //   } else {
-  //     res.status(400).json({ error: 'Invalid parameters' });
-  //   }
-  // }
+  async createDog(req: Request<{}, {}, IDog>) {
+    const dog = { ...req.body };
+
+    const newDog = await this.dogService.saveDogToDB(dog);
+    return newDog;
+  }
 }
 
 export const dogController = new DogController();

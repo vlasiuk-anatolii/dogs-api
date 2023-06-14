@@ -21,7 +21,7 @@ export class DogService {
     return dog;
   }
 
-  public async createDog(dog: IDog) {
+  public async saveDogToDB(dog: IDog) {
     const createdDog = await this.dogRepository.createOne(dog);
     return createdDog;
   }

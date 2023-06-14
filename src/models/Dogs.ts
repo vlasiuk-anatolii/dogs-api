@@ -6,12 +6,6 @@ const sequelize = new Sequelize('dogs', 'dog', 'dog', {
   dialect: 'mssql'
 });
 export const MyModelDog = sequelize.define('dogs', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-  },
-
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -31,14 +25,25 @@ export const MyModelDog = sequelize.define('dogs', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
 }, {
+  timestamps: true,
   tableName: 'dogs',
 });
 
 async function testConnection() {
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.::::::');
+    console.log('Connection has been established successfully');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }

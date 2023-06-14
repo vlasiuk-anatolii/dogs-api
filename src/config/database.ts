@@ -44,8 +44,8 @@ export const initializeDatabase = async () => {
       color VARCHAR(50),
       tail_length INT,
       weight INT,
-      createdAt DATETIME,
-      updatedAt DATETIME
+      createdAt DATETIME DEFAULT GETDATE(),
+      updatedAt DATETIME DEFAULT GETDATE()
     )
   `;
 

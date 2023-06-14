@@ -43,3 +43,10 @@ export class DogMiddleWare {
 }
 
 export const dogMiddleWare = new DogMiddleWare();
+
+
+// async verifyExistingDog(req: Request<{ name: string }, {}, IDog>) {
+//   const { name } = req.body;
+//   const dog = await this.dogService.getByName(name);
+//   return dog;
+// }

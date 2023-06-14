@@ -43,6 +43,7 @@ export class DogRepository {
 
   async createOne(dog: IDog) {
     try {
+      const currentDateTime = new Date();
       const newDog = await MyModelDog.create({
         name: dog.name,
         color: dog.color, 
