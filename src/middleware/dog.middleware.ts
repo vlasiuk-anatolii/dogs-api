@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
+import { Model } from 'sequelize';
 
 export class DogMiddleWare {
   validate(schema: Joi.ObjectSchema) {
@@ -16,13 +17,13 @@ export class DogMiddleWare {
     };
   }
 
-  isExistsName(getDogByName: (name: string) => Promise<Document | null>) {
+  isExistsName(getDogByName: (name: string) => Promise<Model<any, any> | null>) {
     return async (req: Request, res: Response, next: NextFunction) => {
       const currentName = req.body.name;
 
       const dog = await getDogByName(currentName);
       if (dog) {
-        return res.send(`Dog with name: ${currentName} already exists`);
+        return res.send(`Dog with name: ${currentName} already exists!!!`);
       }
       next();
     };

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { dogMiddleWare } from '../../middleware/dog.middleware';
 import { dogJoiSchema } from '../../schemas/dog.schema';
 import { dogController } from '../../controllers/dog.controller';
+import { dogRepository } from '../../config/dog.repository';
 
 const dogsRouter: Router = Router();
 
@@ -14,6 +15,7 @@ dogsRouter.get(
 dogsRouter.post(
   '/dog',
   dogMiddleWare.validate(dogJoiSchema),
+  dogMiddleWare.isExistsName(dogRepository.getOne),
   dogMiddleWare.tryCatch(dogController.createDog.bind(dogController))
 );
 
