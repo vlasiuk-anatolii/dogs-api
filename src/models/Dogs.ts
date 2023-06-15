@@ -1,10 +1,16 @@
 import { Sequelize, DataTypes  } from 'sequelize';
+import { dogsData } from '../initial-data';
 
-const sequelize = new Sequelize('dogs', 'dog', 'dog', {
-  host: 'localhost',
-  port: 1433,
-  dialect: 'mssql'
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME, 
+  process.env.DB_USER, 
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT),
+    dialect: 'mssql'
+  }
+);
 export const MyModelDog = sequelize.define('dogs', {
   name: {
     type: DataTypes.STRING,
@@ -37,17 +43,18 @@ export const MyModelDog = sequelize.define('dogs', {
   },
 }, {
   timestamps: true,
-  tableName: 'dogs',
+  tableName: 'doggy',
 });
 
-async function testConnection() {
+(async () => {
   try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully');
+    await sequelize.sync({ force: true });
+    console.log('The table was created and synchronized with the database.');
+    
+    await MyModelDog.bulkCreate(dogsData);
+    console.log('Records were created in the table.');
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error('Error synchronizing or creating records:', error);
   }
-}
-
-testConnection();
+})();
 

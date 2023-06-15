@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { dogMiddleWare } from '../../middleware/dog.middleware';
 import { dogJoiSchema } from '../../schemas/dog.schema';
 import { dogController } from '../../controllers/dog.controller';
-import { dogRepository } from '../../config/dog.repository';
+import { dogRepository } from '../../repository/dog.repository';
 
 const dogsRouter: Router = Router();
 
@@ -25,6 +25,5 @@ dogsRouter.get(
     res.send('Dogshouseservice.Version1.0.1');
   }
 ));
-
 
 export default dogsRouter;

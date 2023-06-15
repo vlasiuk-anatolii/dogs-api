@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { Model } from 'sequelize';
+import timeout from 'connect-timeout';
 
 export class DogMiddleWare {
   validate(schema: Joi.ObjectSchema) {
@@ -34,6 +35,19 @@ export class DogMiddleWare {
   ): (req: Req, res: Res, next: Next) => Promise<void> {
     return async (req: Req, res: Res, next: Next) => {
       try {
+        const timeoutMiddleware = timeout(parseInt(process.env.TIMEOUT_DURATION));
+
+        await new Promise<void>((resolve, reject) => {
+          timeoutMiddleware(req, res, (err: any) => {
+            if (err) {
+              const error = new Error('Request Timeout');
+              error.name = 'TimeoutError';
+              reject(error);
+            } else {
+              resolve();
+            }
+          });
+        });
         const result = await fn(req, res, next);
         res.send(result);
       } catch (err) {
@@ -44,10 +58,3 @@ export class DogMiddleWare {
 }
 
 export const dogMiddleWare = new DogMiddleWare();
-
-
-// async verifyExistingDog(req: Request<{ name: string }, {}, IDog>) {
-//   const { name } = req.body;
-//   const dog = await this.dogService.getByName(name);
-//   return dog;
-// }

@@ -1,5 +1,4 @@
-import { ParsedQs } from 'qs';
-import { DogRepository } from '../config/dog.repository';
+import { DogRepository } from '../repository/dog.repository';
 import { IDog } from '../types/dog.type';
 import { FindOptions } from 'sequelize';
 
@@ -12,7 +11,6 @@ export class DogService {
 
   public async getAllDogsFromDB(queryOptions: FindOptions<any> | undefined) {
     const dogs = await this.dogRepository.getAll(queryOptions);
-    console.log("Service queryOptions", queryOptions);
     return dogs;
   }
 

@@ -7,6 +7,7 @@ declare global {
       DB_PASSWORD: string;
       DB_NAME: string;
       PORT: string;
+      TIMEOUT_DURATION: string;
     }
   }
 }

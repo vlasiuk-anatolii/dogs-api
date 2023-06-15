@@ -24,14 +24,16 @@ export class DogController {
       case !attribute && !order && !pageNumber && !limit:
         queryOptions = {};
         break;
+
       case attribute && order && !pageNumber && !limit:
         const sortingOrder = order === 'desc' ? 'DESC' : 'ASC';
         queryOptions = {
           order: attribute && order ? [[attribute, sortingOrder]] : [],
         };
         break;
+
       case !!(!attribute && !order && pageNumber && limit) === true:
-        const keyValueArray = limit?.split("=");
+        const keyValueArray = limit?.split('=');
         let numberValue = 3;
         
         if(keyValueArray) {
@@ -43,6 +45,7 @@ export class DogController {
           limit: numberValue ? numberValue : undefined,
         };
         break;
+        
       default:
         throw new Error('Invalid query parameters');
     }
