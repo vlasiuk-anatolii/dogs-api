@@ -1,136 +1,87 @@
-# Mongoose Node.js Express TypeScript application boilerplate with best practices for API development.
+# MS SQL, Node.js, Express, TypeScript application.
 
 ## TO RUN PROJECT USE
 
-1. `npm install -g yarn`
-2. `yarn`
-3. `yarn server`
+1. Clone the repo
 
-Finally, navigate to `http://localhost:5000/` and you should see the API running!
+```sh
+git clone https://github.com/vlasiuk-anatolii/dogs-api
+```
+2. Install NPM packages
 
-## Project Structure
+```sh
+npm install
+```
+3. Type in the terminal
 
-The most obvious difference in a TypeScript + Node project is the folder structure. In a TypeScript project, it's best to have separate _source_ and _distributable_ files. TypeScript (`.ts`) files live in your `src` folder and after compilation are output as JavaScript (`.js`) in the `dist` folder.
+```sh
+npm start
+```
+4. After that, server will start on http://localhost:80
 
-The full folder structure of this app is explained below:
+## Project Features
 
-> **Note!** Make sure you have already built the app using `npm run start`
+*  The application has an action called "Ping". If you execute this command:
+```sh
+curl -X GET 'http://localhost/ping'
+```
+ You will obtain the following message: 
 
-| Name               | Description                                                                                                                                                   |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **config**         | Contains config environment to be used by the config package, such as MongoDB URI, jwtSecret, and etc.                                                        |
-| **dist**           | Contains the distributable (or output) from your TypeScript build                                                                                             |
-| **node_modules**   | Contains all your npm dependencies                                                                                                                            |
-| **REST**           | Contains all API requests to test the routes, used with [REST Client VSCode extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) |
-| **src**            | Contains your source code that will be compiled to the dist dir                                                                                               |
-| **src/middleware** | Contains the middlewares to intercept requests                                                                                                                |
-| **src/models**     | Models define Mongoose schemas that will be used in storing and retrieving data from MongoDB                                                                  |
-| **src/routes**     | Routes define the endpoints of your API                                                                                                                       |
-| **src/types**      | Contains all your custom types to better handle type checking with TypeScript                                                                                 |
-| **src/server.ts**  | Entry point to your express app                                                                                                                               |
-| package.json       | File that contains npm dependencies as well as [build scripts](#what-if-a-library-isnt-on-definitelytyped)                                                    |
-| tsconfig.json      | Config settings for compiling server code written in TypeScript                                                                                               |
-| tslint.json        | Config settings for TSLint code style checking                                                                                                                |
+```sh
+"Dogshouseservice.Version1.0.1"
+```
+* The application has an action that allows querying dogs. It works in the following way:
 
-### Configuring TypeScript compilation
+```sh
+curl -X GET 'http://localhost/dogs'
+```
+will be returned the following:
 
-TypeScript uses the file `tsconfig.json` to adjust project compile options.
-Let's dissect this project's `tsconfig.json`, starting with the `compilerOptions` which details how your project is compiled.
-
-```json
-    "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
-  }
+```sh
+[
+{"name": "Neo", "color": "red&amber", "tail_length": 22, "weight": 32},
+{"name": "Jessy", "color": "black&white", "tail_length": 7, "weight": 14}
+]
 ```
 
-| `compilerOptions`            | Description                                                                                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `"module": "commonjs"`       | The **output** module type (in your `.js` files). Node uses commonjs, so that is what we use                                                               |
-| `"esModuleInterop": true,`   | Allows usage of an alternate module import syntax: `import foo from 'foo';`                                                                                |
-| `"target": "es6"`            | The output language level. Node supports ES6, so we can target that here                                                                                   |
-| `"noImplicitAny": true`      | Enables a stricter setting which throws errors when something has a default `any` value                                                                    |
-| `"moduleResolution": "node"` | TypeScript attempts to mimic Node's module resolution strategy. Read more [here](https://www.typescriptlang.org/docs/handbook/module-resolution.html#node) |
-| `"sourceMap": true`          | We want source maps to be output along side our JavaScript. See the [debugging](#debugging) section                                                        |
-| `"outDir": "dist"`           | Location to output `.js` files after compilation                                                                                                           |
-| `"baseUrl": "."`             | Part of configuring module resolution. See [path mapping section](#installing-dts-files-from-definitelytyped)                                              |
-| `paths: {...}`               | Part of configuring module resolution. See [path mapping section](#installing-dts-files-from-definitelytyped)                                              |
-
-The rest of the file define the TypeScript project context.
-The project context is basically a set of options that determine which files are compiled when the compiler is invoked with a specific `tsconfig.json`.
-In this case, we use the following to define our project context:
-
-```json
-    "include": [
-        "src/**/*"
-    ]
+* API supports sorting by attribute, for example, 
+```sh
+curl -X GET 'http://localhost/dogs?attribute=weight&order=desc'
 ```
 
-`include` takes an array of glob patterns of files to include in the compilation. This project is fairly simple and all of our .ts files are under the `src` folder.
+* API supports pagination, for example, 
+```sh
+curl -X GET 'http://localhost/dogs?pageNumber=3&limit=pageSize=10'
+```
+Both sorting and pagination work together.
 
-### Running the build
+* The application has an action that allows creating dogs. It works in the following way:
+```sh
+curl -X POST http://localhost/dog -H 'Content-Type: application/json' -d '{"name": "Doggy","color": "red","tail_length": 73,"weight": 33}'
 
-All the different build steps are orchestrated via [npm scripts](https://docs.npmjs.com/misc/scripts).
-Npm scripts basically allow us to call (and chain) terminal commands via npm.
-This is nice because most JavaScript tools have easy to use command line utilities allowing us to not need grunt or gulp to manage our builds.
-If you open `package.json`, you will see a `scripts` section with all the different scripts you can call.
-To call a script, simply run `npm run <script-name>` from the command line.
-You'll notice that npm scripts can call each other which makes it easy to compose complex builds out of simple individual build scripts.
-Below is a list of all the scripts this template has available:
+```
+* The application does not make it possible to add a dog with a name that is already in the database.
+* The length of the dog's tail should not exceed 80.
+* The weight of the dog should not exceed 100.
+* The name of the dog should be no more than 30 characters.
+* Name the color of the dog should not exceed 30 characters.
+* Tail length and mass must be positive numbers.
+* 5 seconds are allocated for processing the request and generating a response. At the end of this time, the response will receive a message about exceeding the specified time.
 
-| Npm Script     | Description                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| `tsc`          | Transpiles TypeScript codes to JavaScript.                                                    |
-| `watch-tsc`    | Transpiles TypeScript codes to JavaScript, with auto reload.                                  |
-| `deploy`       | Runs node on `dist/server.js` which is the app's entry point.                                 |
-| `watch-deploy` | Runs node on `dist/server.js` which is the app's entry point, with auto reload.               |
-| `server`       | Transpiles TypeScript codes to JavaScript then run node on `dist/server.js` with auto reload. |
-| `start`        | Transpiles TypeScript codes to JavaScript then run node on `dist/server.js`.                  |
+## THE APP WAS CREATED BY USING:
+<h5 align="left">Languages, Frameworks and Tools:</h5>
+<p align="left"> 
+<a href="https://www.gnu.org/software/bash/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/gnu_bash/gnu_bash-icon.svg" alt="bash" width="40" height="40"/></a> 
+<a href="https://expressjs.com" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/></a> 
+<a href="https://git-scm.com/" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/></a> 
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/></a>
+<a href="https://www.typescriptlang.org" target="_blank" rel="noreferrer"> <img src="https://www.typescriptlang.org/icons/icon-48x48.png?v=8944a05a8b601855de116c8a56d3b3ae" alt="typescript" width="40" height="40"/></a> 
+<a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/></a>
+<a href="https://sequelize.org/" target="_blank" rel="noreferrer"> <img src="https://sequelize.org/img/logo.svg
+" alt="sequelize" width="40" height="40"/></a>  
+<a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/de/8/8c/Microsoft_SQL_Server_Logo.svg" alt="mssql" width="40" height="40"/> </a> <a href="https://postman.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a></p>
 
-Since we're developing with TypeScript, it is important for the codes to be transpiled first to JavaScript before running the node server. It is best to deploy the app using: `npm run server` or `npm run start` command.
+## Author
 
-# Dependencies
+* **Vlasiuk Anatolii** - [Vlasiuk Anatolii](https://github.com/vlasiuk-anatolii) - *MS SQL, Node.js, Express, TypeScript application.*
 
-Dependencies are managed through `package.json`.
-In that file you'll find two sections:
-
-## `dependencies`
-
-| Package           | Description                                     |
-| ----------------- | ----------------------------------------------- |
-| bcryptjs          | Library for hashing and salting user passwords. |
-| config            | Universal configurations for your app.          |
-| express           | Node.js web framework.                          |
-| express-validator | Easy form validation for Express.               |
-| gravatar          | Generate Gravatar URLs based on gravatar specs. |
-| http-status-codes | HTTP status codes constants.                    |
-| jsonwebtoken      | JsonWebToken implementation for Node.js.        |
-| mongoose          | MongoDB modeling tool in an async environment.  |
-| request           | Simplified HTTP client for Node.js.             |
-| typescript        | Typed superset of JavaScript.                   |
-
-## `devDependencies`
-
-Since TypeScript is used, dependencies should be accompanied with their corresponding DefinitelyTyped @types package.
-
-| Package             | Description                             |
-| ------------------- | --------------------------------------- |
-| @types/bcryptjs     | DefinitelyTyped for bcryptjs            |
-| @types/config       | DefinitelyTyped for config              |
-| @types/express      | DefinitelyTyped for express             |
-| @types/gravatar     | DefinitelyTyped for gravatar            |
-| @types/jsonwebtoken | DefinitelyTyped for jsonwebtoken        |
-| @types/mongoose     | DefinitelyTyped for mongoose            |
-| concurrently        | Run multiple commands concurrently      |
-| nodemon             | Reload node application on code changes |
-
-To install or update these dependencies you can use `npm install` or `npm update`.
