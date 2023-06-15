@@ -77,8 +77,7 @@ curl -X POST http://localhost/dog -H 'Content-Type: application/json' -d '{"name
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/></a>
 <a href="https://www.typescriptlang.org" target="_blank" rel="noreferrer"> <img src="https://www.typescriptlang.org/icons/icon-48x48.png?v=8944a05a8b601855de116c8a56d3b3ae" alt="typescript" width="40" height="40"/></a> 
 <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/></a>
-<a href="https://sequelize.org/" target="_blank" rel="noreferrer"> <img src="https://sequelize.org/img/logo.svg
-" alt="sequelize" width="40" height="40"/></a>  
+<a href="https://sequelize.org/" target="_blank" rel="noreferrer"> <img src="https://sequelize.org/img/logo.svg" alt="sequelize" width="40" height="40"/></a>  
 <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/de/8/8c/Microsoft_SQL_Server_Logo.svg" alt="mssql" width="40" height="40"/> </a> <a href="https://postman.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a></p>
 
 ## Author
