@@ -25,6 +25,11 @@ npm start
 ```sh
 curl -X GET 'http://localhost/ping'
 ```
+or type in browser
+
+```sh
+http://localhost/ping
+```
  You will obtain the following message: 
 
 ```sh
@@ -34,6 +39,11 @@ curl -X GET 'http://localhost/ping'
 
 ```sh
 curl -X GET 'http://localhost/dogs'
+```
+or type in browser
+
+```sh
+http://localhost/dogs
 ```
 will be returned the following:
 
@@ -48,18 +58,37 @@ will be returned the following:
 ```sh
 curl -X GET 'http://localhost/dogs?attribute=weight&order=desc'
 ```
+or type in browser
+
+```sh
+http://localhost/dogs?attribute=weight&order=desc
+```
 
 * API supports pagination, for example, 
 ```sh
 curl -X GET 'http://localhost/dogs?pageNumber=3&limit=pageSize=10'
 ```
+or type in browser
+
+```sh
+http://localhost/dogs?pageNumber=3&limit=pageSize=10
+```
+
 Both sorting and pagination work together.
 
 * The application has an action that allows creating dogs. It works in the following way:
 ```sh
 curl -X POST http://localhost/dog -H 'Content-Type: application/json' -d '{"name": "Doggy","color": "red","tail_length": 73,"weight": 33}'
-
 ```
+or use Postmen and choose POST query, type 
+```sh
+http://localhost/dog
+```
+and add body 
+```sh
+"{"name": "Doggy","color": "red","tail_length": 73,"weight": 33}"
+```
+
 * The application does not make it possible to add a dog with a name that is already in the database.
 * The length of the dog's tail should not exceed 80.
 * The weight of the dog should not exceed 100.
